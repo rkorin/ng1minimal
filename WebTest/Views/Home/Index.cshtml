@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="homeCtrl">
+
+    <h1>List of Persons</h1>
+
+    <span ng-show="LoadingListOfPersons"> Loading... </span>
+    <table border="1" cellpadding="5" cellspacing="5">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody ng-hide="LoadingListOfPersons" ng-repeat="person in Persons" ng-cloak>
+            <tr ng-hide="person.deleted">
+                <td ng-bind="::person.Id"></td>
+                <td ng-bind="::person.FirstName"></td>
+                <td ng-bind="::person.LastName"></td>
+                <td>
+                    <button ng-click="selectPerson(person.Id)">select</button>
+                    <button ng-click="deletePerson(person.Id)">remove</button>
+                    <button ng-click="editPerson(person.Id)">edit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button ng-click="createPerson()"  ng-hide="LoadingListOfPersons">create new</button>
+
+    <div ng-show="ViewMode" ng-cloak>
+        <h1>Person Profile</h1>
+        <ul>
+            <li>FirstName: <span ng-bind="SelectedPerson.FirstName"></span></li>
+            <li>LastName: <span ng-bind="SelectedPerson.LastName"></span></li>
+            <li>DateOfBirth: <span ng-bind="SelectedPerson.DateOfBirth"></span></li>
+            <li>Address: <span ng-bind="SelectedPerson.Address"></span></li>
+            <li>Note: <span ng-bind="SelectedPerson.Note"></span></li> 
+        </ul>        
+    </div>
+    <div ng-show="EditMode" ng-cloak>
+        <h1>Edit Person Profile</h1>
+        @*<ul>
+            <li>FirstName <span style="color:red">*</span>: <input type="text" ng-model="SelectedPerson.FirstName" /></li>
+            <li>LastName <span style="color:red">*</span>: <input type="text" ng-model="SelectedPerson.LastName" /></li>
+            <li>DateOfBirth: <input type="datetime" ng-model="SelectedPerson.DateOfBirth" /></li>
+            <li>Address: <input type="text" ng-model="SelectedPerson.Address" /></li>
+            <li>Note: <textarea ng-model="SelectedPerson.Note"></textarea></li>
+        </ul>
+        <button ng-click="saveSelected()" ng-disabled="validate(SelectedPerson)">save</button>*@
+
+        <form id="form1" method="post"  ng-submit="submit()"
+              enctype="application/x-www-form-urlencoded">
+            <div>
+                <label for="FirstName">First Name <span style="color:red">*</span></label>
+            </div>
+            <div>
+                <input name="FirstName" ng-model="SelectedPerson.FirstName" type="text" />
+            </div> 
+            <div>
+                <label for="LastName">Last Name <span style="color:red">*</span></label>
+            </div>
+            <div>
+                <input name="LastName" ng-model="SelectedPerson.LastName" type="text" />
+            </div> 
+            <div>
+                <label for="DateOfBirth">Date Of Birth</label>
+            </div>
+            <div>
+                <input name="DateOfBirth" ng-model="SelectedPerson.DateOfBirth" type="datetime" />
+            </div> 
+            <div>
+                <label for="Address">Address</label>
+            </div>
+            <div>
+                <input name="Address" ng-model="SelectedPerson.Address" type="text" />
+            </div> 
+            <div>
+                <label for="Note">Note</label>
+            </div>
+            <div>
+                <textarea name="Note" ng-model="SelectedPerson.Note"></textarea />
+            </div> 
+            <div>
+                <input type="submit" value="Save" ng-click="saveClicked" />
+            </div>
+        </form>
+
+    </div>
+</div>
